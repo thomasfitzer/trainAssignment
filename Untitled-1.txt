@@ -1,0 +1,59 @@
+var firstTrain = moment(initialTrain, 'HH:mm');
+    var currentTime = moment();
+
+    var timeSinceFirst = currentTime.diff(firstTrain, 'minutes');
+    var timeSinceLast = timeSinceFirst % freq;
+    var timeAway = freq - timeSinceLast;
+
+    var nextTrain = currentTime.add(timeAway, 'minutes');
+    var formatNextTrain = nextTrain.format("HH:mm");
+    
+    var tr = $('<tr>');
+    var nameTable = $('<td>');
+    var destTable = $('<td>');
+    var nextTable = $('<td>');
+    var freqTable = $('<td>');
+    var awayTable = $('<td>');
+    nameTable.append(nameTrain);
+    destTable.append(destTrain);
+    nextTable.append(formatNextTrain);
+    freqTable.append(freq);
+    awayTable.append(timeAway);
+    tr.append(nameTable).append(destTable).append(nextTable).append(freqTable).append(awayTable);
+    $('#fresh-trains').append(tr);
+
+     var newTrain = snapsnot.val().nameTrain;
+    var newDest = snapsnot.val().destTrain;
+    var newInitial = snapsnot.val().initialTrain;
+    var newFreq = snapsnot.val().freq;
+
+    var newInitialConverted = moment(newInitial, "HH:mm").subtract(1, "years");
+    console.log(newInitialConverted);
+
+    var currentTimeMoment = moment();
+    console.log("Current Time: " + moment(currentTimeMoment).format("HH:mm"));
+
+    var diffTime = moment().diff(moment(newInitialConverted), "minutes");
+    console.log("Difference in Time: " + diffTime);
+
+    var tRemainder = diffTime % newFreq;
+    console.log(tRemainder);
+
+    var tMinutesUntilTrain = newFreq - tRemainder;
+    console.log("Minutes Until Train: " + tMinutesUntilTrain);
+
+    var nextTrain = moment().add(tMinutesUntilTrain, "minutes");
+    console.log("Arrival Time: " + moment(nextTrain).format("HH:mm"));
+
+    var nextTrainTime = moments(nextTrain).format("HH:mm");
+
+    console.log(snapshot.val);
+    console.log('nameTrain: ' + snapshot.val().nameTrain);
+    console.log('destTrain: ' + snapshot.val().destTrain);
+    console.log('initialTrain: ' + snapshot.val().initialTrain);
+    console.log('freq: ' + snapshot.val().freq);
+    console.log('nextTrain: ' + nextTrainTime);
+    console.log('minutes away: ' + tMinutesUntilTrain);
+    
+    $("fresh-trains").append(
+        '<tr><td>'+ newTrain +'</td><td>'+ newDest +'</td><td>'+ newFreq +'</td><td>'+ nextTrainTime +'</td><td>'+ tMinutesUntilTrain +'</td></tr>');
