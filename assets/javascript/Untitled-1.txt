@@ -1,1 +1,14 @@
 72 $('#fresh-trains').append(tr);
+
+freshTrains = $('#fresh-trains');
+    var nameTable = $('<td>');
+    var destTable = $('<td>');
+    var nextTable = $('<td>');
+    var freqTable = $('<td>');
+    var awayTable = $('<td>');
+    
+    nameTable.append(nameTrain);
+    destTable.append(destTrain);
+    nextTable.append(formatNextTrain);
+    freqTable.append(freq);
+    awayTable.append(timeAway);
