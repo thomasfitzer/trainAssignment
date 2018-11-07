@@ -68,7 +68,7 @@ var config = {
     var tMinutes;
     var tArrival;
   
-    // If the first train is later than the current time, sent arrival to the first train time
+    // If the first train is later than the current time, set arrival to the first train time
     if (maxMoment === trainTime) {
       tArrival = trainTime.format("hh:mm A");
       tMinutes = trainTime.diff(moment(), "minutes");

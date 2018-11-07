@@ -55,27 +55,58 @@ database.ref().on("child_added", function(childSnapshot){
    initialTrain = childSnapshot.val().initialTrain;
    freq = childSnapshot.val().freq;
     
-   
-    var firstTrain = moment(initialTrain, 'HH:mm');
-    var currentTime = moment();
+  //  var currentTime = moment().unix();
+  //  console.log(currentTime);
+    // var firstTrain = moment(initialTrain, 'HH:mm');
+    
     //This calculates the time till the next train.
-    var timeSinceFirst = currentTime.diff(firstTrain, 'minutes');
-    var timeSinceLast = timeSinceFirst % freq;
-    var timeAway = freq - timeSinceLast;
+    // var timeSinceFirst = currentTime.diff(firstTrain, 'minutes');
+    // console.log(initialTrain.unix());
+    // var newInitialTrain = moment(initialTrain, "HH:mm").unix();
+    var timeArrival = initialTrain.split(":");
+    var trainTime = moment().hours(timeArrival[0]).minutes(timeArrival[1]);
+    console.log(trainTime);
+    console.log(timeArrival);
+    
+    var mostMoment = moment.max(moment(), trainTime);
+    console.log(mostMoment);
+    var inMinutes;
+    var nextArrival;
 
-    var nextTrain = currentTime.add(timeAway, 'minutes');
-    var formatNextTrain = nextTrain.format("HH:mm");
-    console.log(formatNextTrain);
-    //In theory, this would add the info entered into the form and put it into the table.
+    if (mostMoment === trainTime) {
+      nextArrival = trainTime.format("HH:mm");
+      inMinutes = trainTime.diff(moment(), "minutes");
+    } else {
+      var diffTimes = moment().diff(trainTime, "minutes");
+      var trainRemainder = diffTimes % freq;
+      inMinutes = freq - trainRemainder;
+      nextArrival = moment().add(inMinutes, "m").format("HH:mm");
+      console.log(nextArrival);
+    }
+
+    // if (maxMoment === trainTime) {
+    //   tArrival = trainTime.format("hh:mm A");
+    //   tMinutes = trainTime.diff(moment(), "minutes");
+    // } else {
+  
+    //   // Calculate the minutes until arrival using hardcore math
+    //   // To calculate the minutes till arrival, take the current time in unix subtract the FirstTrain time
+    //   // and find the modulus between the difference and the frequency.
+    //   var differenceTimes = moment().diff(trainTime, "minutes");
+    //   var tRemainder = differenceTimes % tFrequency;
+    //   tMinutes = tFrequency - tRemainder;
+    //   // To calculate the arrival time, add the tMinutes to the current time
+    //   tArrival = moment().add(tMinutes, "m").format("hh:mm A");
+    // }
+    
+    // var nextArrival = trainTime.diff(moment(), "minutes");
+    // console.log(nextArrival);
     
     
+
     
-    //This does add the info onto the table. Unfortunately, when you enter a second
-    //train into there, it puts it on the same row. And I couldn't figure out how to
-    //add another row. Also, I couldn't figure out how to reset the form after clicking "Add Train"
-    
-    $('#fresh-trains > tbody').append("<tr><td>" + nameTrain + "</td><td>" + destTrain + "</td><td>" + 
-    initialTrain + "</td><td>" + freq + "</td><td>" + formatNextTrain + "</td><tr>" );
+    $('#fresh-trains').append("<tr><td>" + nameTrain + "</td><td>" + destTrain + "</td><td>" + 
+    initialTrain + "</td><td>" + freq + "</td><td>" + inMinutes + "</td><tr>" );
    
   //   // Add each train's data into the table
   //   $("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" +

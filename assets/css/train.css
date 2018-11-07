@@ -1,3 +1,8 @@
 #mainheader{
     margin: auto;
 }
+
+#maintitle {
+    color: black;
+    font-size: 50px;
+}
